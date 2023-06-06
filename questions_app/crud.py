@@ -1,3 +1,5 @@
+from typing import Type
+
 from sqlalchemy import func
 from sqlalchemy.orm import Query, Session
 
@@ -5,13 +7,13 @@ from .models import Question
 from .schemas import Question as scQuestion
 
 
-def get_db_questions(db: Session, question_num: int) -> Query:
+def get_db_questions(db: Session, question_num: int) -> Query[Type[Question]] | list:
     """
     Returns randomly sorted number of question objects from the db.
     """
-    db_questions: Query = db.query(Question).order_by(func.random()).limit(question_num)
-
-    return db_questions
+    if db.query(Question).count() >= question_num:
+        return db.query(Question).order_by(func.random()).limit(question_num)
+    return []
 
 
 def get_db_question_by_id(db: Session, question_id: int) -> Question:
