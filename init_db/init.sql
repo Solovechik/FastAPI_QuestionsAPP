@@ -1,4 +1,3 @@
-GRANT ALL PRIVILEGES ON DATABASE bewise TO bewiseusr;
 CREATE TABLE IF NOT EXISTS Questions(
 	id SERIAL primary key, 
 	text VARCHAR(500) not null,
